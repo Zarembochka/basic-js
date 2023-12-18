@@ -26,16 +26,16 @@ const chainMaker = {
   removeLink(position) {
     // remove line with error and write your code here
     const arr = this.result.split('~~');
-    if ((position <= 0) || (position > arr.length)) {
+    if ((position <= 0) || (position > arr.length) || (isNaN(position - 1))) {
       this.result = '';
-      throw new NotImplementedError("You can\'t remove incorrect link!");
+      throw new TypeError("You can\'t remove incorrect link!");
     }
     try {
       const newArr = arr.slice(0, position - 1).concat(arr.slice(position));
       this.result = newArr.join('~~');
     } catch (error) {
       this.result = '';
-      throw new NotImplementedError("You can\'t remove incorrect link!");
+      throw new TypeError("You can\'t remove incorrect link!");
     }
     return this;
   },

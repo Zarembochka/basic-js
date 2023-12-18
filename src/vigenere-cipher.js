@@ -26,8 +26,12 @@ class VigenereCipheringMachine {
   }
   encrypt(message, key) {
     // remove line with error and write your code here
-    if (arguments.length < 1) {
-      throw new NotImplementedError('Incorrect arguments!');
+    if (arguments.length < 2) {
+      //throw new NotImplementedError('Incorrect arguments!');
+      throw new TypeError('Incorrect arguments!');
+    }
+    if (message === undefined) {
+      throw new TypeError('Incorrect arguments!');
     }
     const keyToEncrypt = this.getKeyToEncrypt(message, key);
     let result = Array.from(message).map((symbol, index) => this.encryptSymbol(symbol.toUpperCase(), keyToEncrypt[index].toUpperCase()));
@@ -38,8 +42,12 @@ class VigenereCipheringMachine {
   }
   decrypt(message, key) {
     // remove line with error and write your code here
-    if (arguments.length < 1) {
-      throw new NotImplementedError('Incorrect arguments!');
+    if (arguments.length < 2) {
+      //throw new NotImplementedError('Incorrect arguments!');
+      throw new TypeError('Incorrect arguments!');
+    }
+    if (message === undefined) {
+      throw new TypeError('Incorrect arguments!');
     }
     const keyToEncrypt = this.getKeyToEncrypt(message, key);
     let result = Array.from(message).map((symbol, index) => this.decryptSymbol(symbol.toUpperCase(), keyToEncrypt[index].toUpperCase()));

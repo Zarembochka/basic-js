@@ -20,7 +20,7 @@ function getSeason(date) {
   try {
     date.getTime();
   } catch (error) {
-    throw new NotImplementedError('Invalid date!');
+    throw new TypeError('Invalid date!');
   }
 
   let season;
