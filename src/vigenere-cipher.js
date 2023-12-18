@@ -20,13 +20,67 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor (direct = true) {
+    this.direct = direct;
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
+  encrypt(message, key) {
     // remove line with error and write your code here
+    if (arguments.length < 1) {
+      throw new NotImplementedError('Incorrect arguments!');
+    }
+    const keyToEncrypt = this.getKeyToEncrypt(message, key);
+    let result = Array.from(message).map((symbol, index) => this.encryptSymbol(symbol.toUpperCase(), keyToEncrypt[index].toUpperCase()));
+    if (!this.direct) {
+      result = result.reverse();
+    }
+    return result.join('');
+  }
+  decrypt(message, key) {
+    // remove line with error and write your code here
+    if (arguments.length < 1) {
+      throw new NotImplementedError('Incorrect arguments!');
+    }
+    const keyToEncrypt = this.getKeyToEncrypt(message, key);
+    let result = Array.from(message).map((symbol, index) => this.decryptSymbol(symbol.toUpperCase(), keyToEncrypt[index].toUpperCase()));
+    if (!this.direct) {
+      result = result.reverse();
+    }
+    return result.join('');
+  }
+  getKeyToEncrypt(message, key) {
+    let keyToEncrypt = '';
+    let indexToAdd = 0;
+    for (let i = 0; i < message.length; i++) {
+      if (message[i] === ' ') {
+        keyToEncrypt += ' ';
+        indexToAdd -= 1;
+        continue;
+      }
+      if (i + indexToAdd >= key.length) {
+        indexToAdd -= key.length;
+      }
+      keyToEncrypt += key[i + indexToAdd];
+    }
+    return keyToEncrypt;
+  }
+  encryptSymbol(symbol, key) {
+    const indexFromAlphabet = this.alphabet.indexOf(symbol);
+    if (indexFromAlphabet === -1) {
+      return symbol;
+    }
+    const indexFromKey = this.alphabet.indexOf(key);
+    const indexEncryptSymbol = (indexFromAlphabet + indexFromKey) % this.alphabet.length;
+    return this.alphabet.at(indexEncryptSymbol);
+  }
+  decryptSymbol(symbol, key) {
+    const indexFromAlphabet = this.alphabet.indexOf(symbol);
+    if (indexFromAlphabet === -1) {
+      return symbol;
+    }
+    const indexFromKey = this.alphabet.indexOf(key);
+    const indexEncryptSymbol = (indexFromAlphabet - indexFromKey) % this.alphabet.length;
+    return this.alphabet.at(indexEncryptSymbol);
   }
 }
 
